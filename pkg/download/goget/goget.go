@@ -6,7 +6,9 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
+	"os"
 	"os/exec"
+	"path/filepath"
 	"time"
 
 	"github.com/gomods/athens/pkg/config"
@@ -102,8 +104,23 @@ func (gg *goget) list(op errors.Op, mod string) (*listResp, error) {
 	cmd.Stdout = stdout
 	cmd.Stderr = stderr
 
+	gopath, err := afero.TempDir(gg.fs, "", "athens")
+	if err != nil {
+		return nil, errors.E(op, err)
+	}
+	defer module.ClearFiles(gg.fs, gopath)
+	gopathEnv := fmt.Sprintf("GOPATH=%s", gopath)
+	cacheEnv := fmt.Sprintf("GOCACHE=%s", filepath.Join(gopath, "cache"))
+	disableCgo := "CGO_ENABLED=0"
+	enableGoModules := "GO111MODULE=on"
+	cmd.Env = []string{"PATH=" + os.Getenv("PATH"), gopathEnv, cacheEnv, disableCgo, enableGoModules}
+
 	err = cmd.Run()
 	if err != nil {
+		if mod == "google.golang.org/grpc" {
+			fmt.Println("FUCKKK", hackyPath)
+			time.Sleep(time.Second * 30)
+		}
 		err = fmt.Errorf("%v: %s", err, stderr)
 		return nil, errors.E(op, err)
 	}

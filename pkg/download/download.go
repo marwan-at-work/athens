@@ -2,6 +2,7 @@ package download
 
 import (
 	"context"
+	"fmt"
 	"io"
 	"time"
 
@@ -143,6 +144,9 @@ func (p *protocol) Zip(ctx context.Context, mod, ver string) (io.ReadCloser, err
 	const op errors.Op = "protocol.Zip"
 	zip, err := p.s.Zip(ctx, mod, ver)
 	if errors.IsNotFoundErr(err) {
+		if mod == "github.com/golang/protobuf" {
+			fmt.Println("NICE!", err)
+		}
 		err = p.request(mod, ver)
 		if err != nil {
 			return nil, errors.E(op, err)
@@ -150,6 +154,9 @@ func (p *protocol) Zip(ctx context.Context, mod, ver string) (io.ReadCloser, err
 		zip, err = p.s.Zip(ctx, mod, ver)
 	}
 	if err != nil {
+		if mod == "github.com/golang/protobuf" {
+			fmt.Println("FUCK", err)
+		}
 		return nil, errors.E(op, err)
 	}
 
