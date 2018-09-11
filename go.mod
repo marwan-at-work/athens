@@ -55,8 +55,8 @@ require (
 	github.com/stretchr/testify v1.2.2
 	github.com/technosophos/moniker v0.0.0-20180509230615-a5dbd03a2245
 	github.com/uber-go/atomic v1.3.2 // indirect
-	github.com/uber/jaeger-client-go v2.14.0+incompatible
-	github.com/uber/jaeger-lib v1.5.0
+	github.com/uber/jaeger-client-go v2.14.0+incompatible // indirect
+	github.com/uber/jaeger-lib v1.5.0 // indirect
 	github.com/unrolled/secure v0.0.0-20180618144512-8287f3899c8e
 	go.opencensus.io v0.15.0
 	go.uber.org/atomic v1.3.2 // indirect
