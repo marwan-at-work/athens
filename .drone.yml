@@ -42,7 +42,7 @@ steps:
     tags:
       - latest
       - canary
-      - $DRONE_TAG
+      - ${DRONE_TAG}
     dockerfile: cmd/proxy/Dockerfile
   when:
     event:
