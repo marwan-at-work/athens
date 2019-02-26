@@ -6,9 +6,13 @@ steps:
   image: golang:1.12rc1
   commands:
   - go build cmd/proxy/*.go
-  - go mod vendor # when modules are official: use athens to build athens :) 
   - go test -mod=vendor -v ./...
   - ./main &
+  - sleep 3
+  - mkdir -p ~/happy
+  - cd ~/happy && git clone https://github.com/athens-artifacts/happy-path.git
+  - cd happy-path
+  - GOPROXY=localhost:3000 go build
   environment:
     GO111MODULE: on
     ATHENS_MONGO_STORAGE_URL: mongodb://mongo:27017
