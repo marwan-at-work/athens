@@ -11,7 +11,8 @@ steps:
 
   # test
   - go test -mod=vendor -v ./...
-  - go vet ./...
+  - ./scripts/check_gofmt.sh
+  - go vet -mod=vendor ./...
 
   # e2e
   - ./main & # run the just-built athens server
