@@ -6,20 +6,18 @@ steps:
   image: golang:1.12rc1
   commands:
   - go build cmd/proxy/*.go
+  - go mod vendor # when modules are official: use athens to build athens :) 
+  - go test -mod=vendor -v ./...
   environment:
     GO111MODULE: on
+    ATHENS_MONGO_STORAGE_URL: mongodb://mongo:27017
   when:
     event:
       - push
       - pull_request
 
-- name: test
-  image: golang:1.12rc1
-  commands:
-  - go test ./...
-  environment:
-    GO111MODULE: on
-  when:
-    event:
-      - push
-      - pull_request
+services:
+- name: mongo
+  image: mongo
+  ports:
+  - 27017
