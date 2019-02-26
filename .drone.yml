@@ -5,6 +5,7 @@ steps:
 - name: build
   image: golang:1.12rc1
   commands:
+  - sleep 3 # wait for services to be ready.
   # build
   - go build -mod=vendor cmd/proxy/*.go
 
