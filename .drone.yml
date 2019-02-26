@@ -23,7 +23,7 @@ services:
   ports:
   - 27017
 - name: minio
-  image: minio
+  image: minio/minio:latest
   command:
     - server
     - /data
