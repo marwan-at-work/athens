@@ -38,7 +38,7 @@ steps:
       from_secret: DOCKER_USER
     password:
       from_secret: DOCKER_PASSWORD
-    repo: gomods/athens
+    repo: marwan91/athens
     tags:
       - latest
       - canary
