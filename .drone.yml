@@ -5,15 +5,18 @@ steps:
 - name: build
   image: golang:1.12rc1
   commands:
-  - sleep 3 # wait for services to be up
+  # build
   - go build -mod=vendor cmd/proxy/*.go
+  # test
   - go test -mod=vendor -v ./...
+  # end to end test
   - ./main &
   - sleep 3
   - mkdir -p ~/happy
+  - mkdir -p ~/fakegopath
   - cd ~/happy && git clone https://github.com/athens-artifacts/happy-path.git
   - cd happy-path
-  - GOPROXY=http://localhost:3000 go build
+  - GOPATH=~/fakegopath GOPROXY=http://localhost:3000 go build
   environment:
     GO111MODULE: on
     ATHENS_MONGO_STORAGE_URL: mongodb://mongo:27017
