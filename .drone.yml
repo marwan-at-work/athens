@@ -32,6 +32,16 @@ steps:
       - push
       - pull_request
 
+- name: docker  
+  image: plugins/docker
+  settings:
+    username:
+      from_secret: DOCKER_USER
+    password:
+      from_secret: DOCKER_PASSWORD
+    repo: marwan91/athens
+    tags: canary
+
 services:
 - name: mongo
   image: mongo
