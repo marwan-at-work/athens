@@ -31,7 +31,7 @@ steps:
       - push
       - pull_request
 
-- name: docker  
+- name: docker
   image: plugins/docker
   settings:
     username:
@@ -39,9 +39,15 @@ steps:
     password:
       from_secret: DOCKER_PASSWORD
     repo: marwan91/athens
-    tags: canary
+    tags:
+      - latest
+      - canary
+      - $DRONE_TAG
     dockerfile: cmd/proxy/Dockerfile
-
+  when:
+    event:
+      - tag
+      - push
 services:
 - name: mongo
   image: mongo
