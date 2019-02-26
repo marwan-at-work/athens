@@ -31,23 +31,39 @@ steps:
       - push
       - pull_request
 
-- name: docker
+- name: docker-latest
   image: plugins/docker
   settings:
     username:
       from_secret: DOCKER_USER
     password:
       from_secret: DOCKER_PASSWORD
-    repo: marwan91/athens
+    repo: gomods/athens
     tags:
       - latest
       - canary
+    dockerfile: cmd/proxy/Dockerfile
+  when:
+    branch:
+      - master
+    event:
+      - push
+
+- name: docker-release
+  image: plugins/docker
+  settings:
+    username:
+      from_secret: DOCKER_USER
+    password:
+      from_secret: DOCKER_PASSWORD
+    repo: gomods/athens
+    tags:
       - ${DRONE_TAG}
     dockerfile: cmd/proxy/Dockerfile
   when:
     event:
       - tag
-      - push
+
 services:
 - name: mongo
   image: mongo
