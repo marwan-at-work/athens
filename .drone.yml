@@ -11,11 +11,7 @@ steps:
 
   # test
   - go test -mod=vendor -v ./...
-    
-  # get dev tools:
-  - go install golang.org/x/lint/golint
-  # linting, etc
-  - make verify
+  - go vet ./...
 
   # e2e
   - ./main & # run the just-built athens server
