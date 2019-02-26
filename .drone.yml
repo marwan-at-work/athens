@@ -10,7 +10,8 @@ steps:
   - go test -mod=vendor -v ./...
   environment:
     GO111MODULE: on
-    ATHENS_MONGO_STORAGE_URL: "mongodb://mongo:27017"
+    ATHENS_MONGO_STORAGE_URL: mongodb://mongo:27017
+    ATHENS_MINIO_ENDPOINT: minio:9000
   when:
     event:
       - push
@@ -21,3 +22,11 @@ services:
   image: mongo
   ports:
   - 27017
+- name: minio
+  image: minio
+  command: server /data
+  ports:
+    - 9000
+  environment:
+    MINIO_ACCESS_KEY: minio
+    MINIO_SECRET_KEY: minio123
