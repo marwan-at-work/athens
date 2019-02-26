@@ -10,7 +10,7 @@ steps:
   - go test -mod=vendor -v ./...
   environment:
     GO111MODULE: on
-    ATHENS_MONGO_STORAGE_URL: mongodb://mongo:27017
+    ATHENS_MONGO_STORAGE_URL: "mongodb://mongo:27017"
   when:
     event:
       - push
