@@ -3,9 +3,19 @@ name: default
 
 steps:
 - name: build
-  image: golang
+  image: golang:1.12rc1
   commands:
   - go build cmd/proxy/*.go
+  environment:
+    GO111MODULE: on
+  when:
+    event:
+      - push
+      - pull_request
+
+- name: test
+  image: golang:1.12rc1
+  commands:
   - go test ./...
   environment:
     GO111MODULE: on
