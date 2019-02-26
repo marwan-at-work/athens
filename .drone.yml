@@ -8,6 +8,7 @@ steps:
   - go build cmd/proxy/*.go
   - go mod vendor # when modules are official: use athens to build athens :) 
   - go test -mod=vendor -v ./...
+  - ./main &
   environment:
     GO111MODULE: on
     ATHENS_MONGO_STORAGE_URL: mongodb://mongo:27017
