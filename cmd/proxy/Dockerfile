@@ -8,7 +8,7 @@ WORKDIR /athens
 
 COPY . .
 
-RUN tree vendor/google.golang.org
+RUN ls vendor/google.golang.org
 
 ARG VERSION="unset"
 
