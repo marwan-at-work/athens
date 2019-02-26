@@ -10,13 +10,14 @@ steps:
   # test
   - go test -mod=vendor -v ./...
   # end to end test
-  - ./main &
-  - sleep 3
+  - ./main & # run the just build athens
+  - sleep 3 # wait for it to spin up
   - mkdir -p ~/happy
-  - mkdir -p ~/fakegopath
-  - cd ~/happy && git clone https://github.com/athens-artifacts/happy-path.git
+  - mkdir -p ~/emptygopath # ensure the gopath has no modules cached.
+  - cd ~/happy
+  - git clone https://github.com/athens-artifacts/happy-path.git
   - cd happy-path
-  - GOPATH=~/fakegopath GOPROXY=http://localhost:3000 go build
+  - GOPATH=~/emptygopath GOPROXY=http://localhost:3000 go build
   environment:
     GO111MODULE: on
     ATHENS_MONGO_STORAGE_URL: mongodb://mongo:27017
@@ -25,6 +26,23 @@ steps:
     event:
       - push
       - pull_request
+
+- name: docker-canary
+  image: docker:dind
+  volumes:
+  - name: dockersock
+    path: /var/run/docker.sock
+  commands:
+  - docker build -f cmd/proxy/Dockerfile -t marwan91/athens:canary .
+  when:
+    event:
+      # TODO: only push to master, and maybe also pull requests but will slow things down.
+      - push
+
+volumes:
+- name: dockersock
+  host:
+    path: /var/run/docker.sock
 
 services:
 - name: mongo
