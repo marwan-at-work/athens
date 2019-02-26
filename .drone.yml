@@ -28,10 +28,11 @@ steps:
       - pull_request
 
 - name: docker-canary
-  image: docker:dind
-  volumes:
-  - name: dockersock
-    path: /var/run/docker.sock
+  image: docker
+  # image: docker:dind
+  # volumes:
+  # - name: dockersock
+  #   path: /var/run/docker.sock
   commands:
   - docker build -f cmd/proxy/Dockerfile -t marwan91/athens:canary .
   when:
@@ -39,10 +40,10 @@ steps:
       # TODO: only push to master, and maybe also pull requests but will slow things down.
       - push
 
-volumes:
-- name: dockersock
-  host:
-    path: /var/run/docker.sock
+# volumes:
+# - name: dockersock
+#   host:
+#     path: /var/run/docker.sock
 
 services:
 - name: mongo
