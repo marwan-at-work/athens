@@ -142,7 +142,8 @@ func downloadModule(goBinaryName string, fs afero.Fs, gopath, repoRoot, module, 
 		if isLimitHit(err.Error()) {
 			return goModule{}, errors.E(op, err, errors.KindRateLimit)
 		}
-		return goModule{}, errors.E(op, err)
+
+		return goModule{}, errors.E(op, err.Error()+"-------"+stdout.String())
 	}
 
 	var m goModule
