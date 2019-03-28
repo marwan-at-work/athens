@@ -194,6 +194,8 @@ func PrepareEnv(gopath string) []string {
 		cmdEnv = append(cmdEnv, fmt.Sprintf("HOMEPATH=%s", os.Getenv("HOMEPATH")))
 	}
 
+	cmdEnv = append(cmdEnv, os.Environ()...)
+
 	return cmdEnv
 }
 
